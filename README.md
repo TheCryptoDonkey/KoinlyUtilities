@@ -8,6 +8,9 @@ dotnet build
 dotnet publish -c Release -o out
 ```
 ## Usage
+Export both your GBP and BTC transactions from CoinCorner and save them as CSV files. Then run the following command:
+```bash
+
 CoincornerToKoinly <inputfile>
 
 Where the inputfile is the CoinCorner transaction file, for instance "CoinCorner GBP Transaction Export.csv"

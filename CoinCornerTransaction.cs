@@ -11,8 +11,8 @@ public class CoinCornerTransaction
     public string? PriceCurrency { get; set; }
     public decimal Gross { get; init; }
     public string GrossCurrency { get; init; }
-    public decimal Fee { get; init; }
-    public string FeeCurrency { get; init; }
+    public decimal? Fee { get; init; }
+    public string? FeeCurrency { get; init; }
     public decimal Net { get; set; }
     public string NetCurrency { get; init; }
     public decimal Balance { get; set; }

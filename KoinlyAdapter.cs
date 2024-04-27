@@ -17,8 +17,47 @@ public static class KoinlyAdapter
         {
             "Trade" => AdaptTrade(transaction),
             "Bank deposit" => AdaptDeposit(transaction),
+            "Send" => AdaptSend(transaction),
+            "Bolt Card" => AdaptSend(transaction),
+            "Receive" => AdaptReceive(transaction),
             _ => throw new Exception($"Unknown transaction type {transaction.Type}")
         };
+    }
+
+    private static KoinlyTransaction AdaptReceive(CoinCornerTransaction transaction)
+    {
+        var koinlyTransaction = new KoinlyTransaction
+        {
+            Date = DateTime.Parse(transaction.DateAndTime),
+            ReceivedAmount = transaction.Gross,
+            ReceivedCurrency = transaction.GrossCurrency,
+            NetWorthAmount = transaction.Net,
+            NetWorthCurrency = transaction.NetCurrency,
+            Label = "Receive",
+            Description = transaction.Detail,
+            TxHash = transaction.TransactionId
+        };
+
+        return koinlyTransaction;
+    }
+
+    private static KoinlyTransaction AdaptSend(CoinCornerTransaction transaction)
+    {
+        var koinlyTransaction = new KoinlyTransaction
+        {
+            Date = DateTime.Parse(transaction.DateAndTime),
+            SentAmount = transaction.Gross,
+            SentCurrency = transaction.GrossCurrency,
+            FeeAmount = transaction.Fee,
+            FeeCurrency = transaction.FeeCurrency,
+            NetWorthAmount = transaction.Net,
+            NetWorthCurrency = transaction.NetCurrency,
+            Label = "Send",
+            Description = transaction.Detail,
+            TxHash = transaction.TransactionId
+        };
+
+        return koinlyTransaction;
     }
 
     private static KoinlyTransaction AdaptDeposit(CoinCornerTransaction transaction)
@@ -31,7 +70,7 @@ public static class KoinlyAdapter
             NetWorthAmount = transaction.Net,
             NetWorthCurrency = transaction.NetCurrency,
             Label = "Bank Deposit",
-            Description = string.Empty,
+            Description = transaction.Detail,
             TxHash = string.Empty
         };
 
@@ -52,7 +91,7 @@ public static class KoinlyAdapter
             NetWorthAmount = transaction.Net,
             NetWorthCurrency = transaction.NetCurrency,
             Label = "Trade",
-            Description = string.Empty,
+            Description = transaction.Detail,
             TxHash = transaction.TransactionId
         };
 
